@@ -16,6 +16,7 @@ recipe_types:
   Build: Use {IN_ITEMS} to build {OUT_ITEM}
   Recycle: Recycle {IN_ITEMS} into {OUT_ITEM}
   Salvage: Salvage {IN_ITEMS} to get {OUT_ITEM}
+  Buy: Spend {IN_ITEMS} to buy {OUT_ITEM}
 
 resources:
   ##############################################################################
@@ -1572,18 +1573,146 @@ resources:
 
   - H2: Resources ##############################################################
 
-  - name: Food
-    raw_resource: true
-    currency: true
-  - name: Fuel
-    raw_resource: true
-    currency: true
   - name: Merits
     raw_resource: true
     currency: true
-  - name: Warp Key # TODO: buy cost?
-    raw_resource: true
-  - name: Torpedo # TODO: buy cost?
+  - name: Food
+    recipes:
+      - output: 1
+        recipe_type: Buy
+        requirements:
+          Merits: 25
+      - output: 1
+        recipe_type: Salvage
+        requirements:
+          Biscuit: 1
+  - name: Biscuit
+    recipes:
+      - output: 1
+        recipe_type: Buy
+        requirements:
+          Merits: 25
+  - name: Fuel
+    recipes:
+      - output: 1
+        recipe_type: Buy
+        requirements:
+          Merits: 25
+  - name: Warp Key
+    recipes:
+      - output: 1
+        recipe_type: Buy
+        requirements:
+          Merits: 100
+  - name: Torpedo
+    recipes:
+      - output: 1
+        recipe_type: Buy
+        requirements:
+          Merits: 50
+
+  - H2: Ammo ###################################################################
+
+  - name: Bullets
+    recipes:
+      - output: 10
+        recipe_type: Buy
+        requirements:
+          Merits: 5
+  - name: Staples
+    recipes:
+      - output: 4
+        recipe_type: Buy
+        requirements:
+          Merits: 5
+  - name: Toaster Juice
+    recipes:
+      - output: 3
+        recipe_type: Buy
+        requirements:
+          Merits: 5
+  - name: Rivets
+    recipes:
+      - output: 45
+        recipe_type: Buy
+        requirements:
+          Merits: 5
+  - name: Nebula Tubes
+    recipes:
+      - output: 2
+        recipe_type: Buy
+        requirements:
+          Merits: 5
+
+  - name: Bushwhackers
+    recipes:
+      - output: 2
+        recipe_type: Buy
+        requirements:
+          Merits: 5
+  - name: Spikes
+    recipes:
+      - output: 4
+        recipe_type: Buy
+        requirements:
+          Merits: 5
+  - name: Bangers
+    recipes:
+      - output: 2
+        recipe_type: Buy
+        requirements:
+          Merits: 5
+  - name: Clusterflaks
+    recipes:
+      - output: 2
+        recipe_type: Buy
+        requirements:
+          Merits: 5
+  - name: Rad Spikes
+    recipes:
+      - output: 4
+        recipe_type: Buy
+        requirements:
+          Merits: 5
+
+  - name: Zap Charges
+    recipes:
+      - output: 3
+        recipe_type: Buy
+        requirements:
+          Merits: 5
+  - name: Kittybots
+    recipes:
+      - output: 2
+        recipe_type: Buy
+        requirements:
+          Merits: 5
+  - name: Rifter Nuclei
+    recipes:
+      - output: 2
+        recipe_type: Buy
+        requirements:
+          Merits: 5
+  - name: Bouncer Goo
+    recipes:
+      - output: 10
+        recipe_type: Buy
+        requirements:
+          Merits: 5
+  - name: Scrambler Eggs
+    recipes:
+      - output: 2
+        recipe_type: Buy
+        requirements:
+          Merits: 5
+
+  - name: Void Pods
+    recipes:
+      - output: 6
+        recipe_type: Buy
+        requirements:
+          Merits: 5
+  - name: Heart Starters
     raw_resource: true
 
   - H2: Junk ###################################################################
