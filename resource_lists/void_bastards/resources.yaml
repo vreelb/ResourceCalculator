@@ -16,7 +16,19 @@ recipe_types:
   Build: Use {IN_ITEMS} to build {OUT_ITEM}
   Recycle: Recycle {IN_ITEMS} into {OUT_ITEM}
   Salvage: Salvage {IN_ITEMS} to get {OUT_ITEM}
-  Buy: Spend {IN_ITEMS} to buy {OUT_ITEM}
+
+  Buy (Any Depth): Spend {IN_ITEMS} at a Krell-Mart to buy {OUT_ITEM}
+  Buy (Depth 1): Spend {IN_ITEMS} at a depth 1 Krell-Mart to buy {OUT_ITEM}
+  Buy (Depth 2): Spend {IN_ITEMS} at a depth 2 Krell-Mart to buy {OUT_ITEM}
+  Buy (Depth 3): Spend {IN_ITEMS} at a depth 3 Krell-Mart to buy {OUT_ITEM}
+  Buy (Depth 4): Spend {IN_ITEMS} at a depth 4 Krell-Mart to buy {OUT_ITEM}
+  Buy (Depth 5): Spend {IN_ITEMS} at a depth 5 Krell-Mart to buy {OUT_ITEM}
+
+  Sell (Depth 1): Sell {IN_ITEMS} at a depth 1 Krell-Mart to get {OUT_ITEM}
+  Sell (Depth 2): Sell {IN_ITEMS} at a depth 2 Krell-Mart to get {OUT_ITEM}
+  Sell (Depth 3): Sell {IN_ITEMS} at a depth 3 Krell-Mart to get {OUT_ITEM}
+  Sell (Depth 4): Sell {IN_ITEMS} at a depth 4 Krell-Mart to get {OUT_ITEM}
+  Sell (Depth 5): Sell {IN_ITEMS} at a depth 5 Krell-Mart to get {OUT_ITEM}
 
 resources:
   ##############################################################################
@@ -1148,6 +1160,26 @@ resources:
     raw_resource: true
     currency: true
     recipes:
+      - output: 10
+        recipe_type: Buy (Depth 1)
+        requirements:
+          Merits: 40
+      - output: 20
+        recipe_type: Buy (Depth 2)
+        requirements:
+          Merits: 40
+      - output: 40
+        recipe_type: Buy (Depth 3)
+        requirements:
+          Merits: 40
+      - output: 80
+        recipe_type: Buy (Depth 4)
+        requirements:
+          Merits: 40
+      - output: 160
+        recipe_type: Buy (Depth 5)
+        requirements:
+          Merits: 40
       - output: 1
         recipe_type: Salvage
         requirements:
@@ -1246,6 +1278,26 @@ resources:
     raw_resource: true
     currency: true
     recipes:
+      - output: 10
+        recipe_type: Buy (Depth 1)
+        requirements:
+          Merits: 40
+      - output: 20
+        recipe_type: Buy (Depth 2)
+        requirements:
+          Merits: 40
+      - output: 40
+        recipe_type: Buy (Depth 3)
+        requirements:
+          Merits: 40
+      - output: 80
+        recipe_type: Buy (Depth 4)
+        requirements:
+          Merits: 40
+      - output: 160
+        recipe_type: Buy (Depth 5)
+        requirements:
+          Merits: 40
       - output: 1
         recipe_type: Salvage
         requirements:
@@ -1332,6 +1384,26 @@ resources:
     raw_resource: true
     currency: true
     recipes:
+      - output: 10
+        recipe_type: Buy (Depth 1)
+        requirements:
+          Merits: 40
+      - output: 20
+        recipe_type: Buy (Depth 2)
+        requirements:
+          Merits: 40
+      - output: 40
+        recipe_type: Buy (Depth 3)
+        requirements:
+          Merits: 40
+      - output: 80
+        recipe_type: Buy (Depth 4)
+        requirements:
+          Merits: 40
+      - output: 160
+        recipe_type: Buy (Depth 5)
+        requirements:
+          Merits: 40
       - output: 1
         recipe_type: Salvage
         requirements:
@@ -1419,6 +1491,26 @@ resources:
     raw_resource: true
     currency: true
     recipes:
+      - output: 10
+        recipe_type: Buy (Depth 1)
+        requirements:
+          Merits: 40
+      - output: 20
+        recipe_type: Buy (Depth 2)
+        requirements:
+          Merits: 40
+      - output: 40
+        recipe_type: Buy (Depth 3)
+        requirements:
+          Merits: 40
+      - output: 80
+        recipe_type: Buy (Depth 4)
+        requirements:
+          Merits: 40
+      - output: 160
+        recipe_type: Buy (Depth 5)
+        requirements:
+          Merits: 40
       - output: 1
         recipe_type: Salvage
         requirements:
@@ -1501,6 +1593,26 @@ resources:
     raw_resource: true
     currency: true
     recipes:
+      - output: 10
+        recipe_type: Buy (Depth 1)
+        requirements:
+          Merits: 40
+      - output: 20
+        recipe_type: Buy (Depth 2)
+        requirements:
+          Merits: 40
+      - output: 40
+        recipe_type: Buy (Depth 3)
+        requirements:
+          Merits: 40
+      - output: 80
+        recipe_type: Buy (Depth 4)
+        requirements:
+          Merits: 40
+      - output: 160
+        recipe_type: Buy (Depth 5)
+        requirements:
+          Merits: 40
       - output: 1
         recipe_type: Salvage
         requirements:
@@ -1576,10 +1688,111 @@ resources:
   - name: Merits
     raw_resource: true
     currency: true
+    recipes:
+      - output: 10
+        recipe_type: Sell (Depth 1)
+        requirements:
+          Bio: 10
+      - output: 10
+        recipe_type: Sell (Depth 1)
+        requirements:
+          Data: 10
+      - output: 10
+        recipe_type: Sell (Depth 1)
+        requirements:
+          Plaz: 10
+      - output: 10
+        recipe_type: Sell (Depth 1)
+        requirements:
+          Slag: 10
+      - output: 10
+        recipe_type: Sell (Depth 1)
+        requirements:
+          Volt: 10
+      - output: 10
+        recipe_type: Sell (Depth 2)
+        requirements:
+          Bio: 20
+      - output: 10
+        recipe_type: Sell (Depth 2)
+        requirements:
+          Data: 20
+      - output: 10
+        recipe_type: Sell (Depth 2)
+        requirements:
+          Plaz: 20
+      - output: 10
+        recipe_type: Sell (Depth 2)
+        requirements:
+          Slag: 20
+      - output: 10
+        recipe_type: Sell (Depth 2)
+        requirements:
+          Volt: 20
+      - output: 10
+        recipe_type: Sell (Depth 3)
+        requirements:
+          Bio: 40
+      - output: 10
+        recipe_type: Sell (Depth 3)
+        requirements:
+          Data: 40
+      - output: 10
+        recipe_type: Sell (Depth 3)
+        requirements:
+          Plaz: 40
+      - output: 10
+        recipe_type: Sell (Depth 3)
+        requirements:
+          Slag: 40
+      - output: 10
+        recipe_type: Sell (Depth 3)
+        requirements:
+          Volt: 40
+      - output: 10
+        recipe_type: Sell (Depth 4)
+        requirements:
+          Bio: 80
+      - output: 10
+        recipe_type: Sell (Depth 4)
+        requirements:
+          Data: 80
+      - output: 10
+        recipe_type: Sell (Depth 4)
+        requirements:
+          Plaz: 80
+      - output: 10
+        recipe_type: Sell (Depth 4)
+        requirements:
+          Slag: 80
+      - output: 10
+        recipe_type: Sell (Depth 4)
+        requirements:
+          Volt: 80
+      - output: 10
+        recipe_type: Sell (Depth 5)
+        requirements:
+          Bio: 160
+      - output: 10
+        recipe_type: Sell (Depth 5)
+        requirements:
+          Data: 160
+      - output: 10
+        recipe_type: Sell (Depth 5)
+        requirements:
+          Plaz: 160
+      - output: 10
+        recipe_type: Sell (Depth 5)
+        requirements:
+          Slag: 160
+      - output: 10
+        recipe_type: Sell (Depth 5)
+        requirements:
+          Volt: 160
   - name: Food
     recipes:
       - output: 1
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 25
       - output: 1
@@ -1589,25 +1802,25 @@ resources:
   - name: Biscuit
     recipes:
       - output: 1
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 25
   - name: Fuel
     recipes:
       - output: 1
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 25
   - name: Warp Key
     recipes:
       - output: 1
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 100
   - name: Torpedo
     recipes:
       - output: 1
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 50
 
@@ -1616,100 +1829,100 @@ resources:
   - name: Bullets
     recipes:
       - output: 10
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 5
   - name: Staples
     recipes:
       - output: 4
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 5
   - name: Toaster Juice
     recipes:
       - output: 3
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 5
   - name: Rivets
     recipes:
       - output: 45
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 5
   - name: Nebula Tubes
     recipes:
       - output: 2
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 5
 
   - name: Bushwhackers
     recipes:
       - output: 2
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 5
   - name: Spikes
     recipes:
       - output: 4
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 5
   - name: Bangers
     recipes:
       - output: 2
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 5
   - name: Clusterflaks
     recipes:
       - output: 2
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 5
   - name: Rad Spikes
     recipes:
       - output: 4
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 5
 
   - name: Zap Charges
     recipes:
       - output: 3
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 5
   - name: Kittybots
     recipes:
       - output: 2
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 5
   - name: Rifter Nuclei
     recipes:
       - output: 2
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 5
   - name: Bouncer Goo
     recipes:
       - output: 10
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 5
   - name: Scrambler Eggs
     recipes:
       - output: 2
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 5
 
   - name: Void Pods
     recipes:
       - output: 6
-        recipe_type: Buy
+        recipe_type: Buy (Any Depth)
         requirements:
           Merits: 5
   - name: Heart Starters
