@@ -4,7 +4,7 @@ authors:
 
 index_page_display_name: Void Bastards
 
-game_version: ""
+game_version: "9388"
 
 note: |
   Based on
@@ -13,11 +13,11 @@ note: |
   https://steamcommunity.com/sharedfiles/filedetails/?id=1762175988
 
 recipe_types:
-  Build: Use {IN_ITEMS} to build {OUT_ITEM}
-  Recycle: Recycle {IN_ITEMS} into {OUT_ITEM}
+  Build: Use {IN_ITEMS} at the workbench to build {OUT_ITEM}
+  Recycle: Recycle {IN_ITEMS} at the workbench into {OUT_ITEM}
   Salvage: Salvage {IN_ITEMS} to get {OUT_ITEM}
 
-  Buy (Any Depth): Spend {IN_ITEMS} at a Krell-Mart to buy {OUT_ITEM}
+  Buy: Spend {IN_ITEMS} at a Krell-Mart to buy {OUT_ITEM}
   Buy (Depth 1): Spend {IN_ITEMS} at a depth 1 Krell-Mart to buy {OUT_ITEM}
   Buy (Depth 2): Spend {IN_ITEMS} at a depth 2 Krell-Mart to buy {OUT_ITEM}
   Buy (Depth 3): Spend {IN_ITEMS} at a depth 3 Krell-Mart to buy {OUT_ITEM}
@@ -31,6 +31,7 @@ recipe_types:
   Sell (Depth 5): Sell {IN_ITEMS} at a depth 5 Krell-Mart to get {OUT_ITEM}
 
   Upgrade (FIX): Upgrade {IN_ITEMS} in a FIX room to get {OUT_ITEM}
+  Recycle (GARB): Recycle {IN_ITEMS} in a GARB room to get {OUT_ITEM}
 
 resources:
   ##############################################################################
@@ -1791,10 +1792,131 @@ resources:
         recipe_type: Sell (Depth 5)
         requirements:
           Volt: 160
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Finger: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Eyeball: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Hand: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Spleen: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Heart: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Head: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Hole Card: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Tape Slug: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          E Cassette: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Floppy Cube: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Memstick: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Hard Cube: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Scriber: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Optics: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Suit Tidy: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Docu-mate: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Mouse Mat: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Mylaroon: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Coin: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Foon: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Flange: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Socket: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Z-lock: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          Bracket: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          AAA Battery: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          AA Battery: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          A Battery: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          B Battery: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          C Battery: 1
+      - output: 5
+        recipe_type: Recycle (GARB)
+        requirements:
+          D Battery: 1
+
   - name: Food
     recipes:
       - output: 1
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 25
       - output: 1
@@ -1804,25 +1926,25 @@ resources:
   - name: Biscuit
     recipes:
       - output: 1
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 25
   - name: Fuel
     recipes:
       - output: 1
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 25
   - name: Warp Key
     recipes:
       - output: 1
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 100
   - name: Torpedo
     recipes:
       - output: 1
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 50
 
@@ -1831,100 +1953,100 @@ resources:
   - name: Bullets
     recipes:
       - output: 10
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 5
   - name: Staples
     recipes:
       - output: 4
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 5
   - name: Toaster Juice
     recipes:
       - output: 3
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 5
   - name: Rivets
     recipes:
       - output: 45
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 5
   - name: Nebula Tubes
     recipes:
       - output: 2
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 5
 
   - name: Bushwhackers
     recipes:
       - output: 2
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 5
   - name: Spikes
     recipes:
       - output: 4
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 5
   - name: Bangers
     recipes:
       - output: 2
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 5
   - name: Clusterflaks
     recipes:
       - output: 2
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 5
   - name: Rad Spikes
     recipes:
       - output: 4
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 5
 
   - name: Zap Charges
     recipes:
       - output: 3
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 5
   - name: Kittybots
     recipes:
       - output: 2
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 5
   - name: Rifter Nuclei
     recipes:
       - output: 2
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 5
   - name: Bouncer Goo
     recipes:
       - output: 10
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 5
   - name: Scrambler Eggs
     recipes:
       - output: 2
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 5
 
   - name: Void Pods
     recipes:
       - output: 6
-        recipe_type: Buy (Any Depth)
+        recipe_type: Buy
         requirements:
           Merits: 5
   - name: Heart Starters
