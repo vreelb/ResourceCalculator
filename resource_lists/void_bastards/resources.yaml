@@ -30,6 +30,8 @@ recipe_types:
   Sell (Depth 4): Sell {IN_ITEMS} at a depth 4 Krell-Mart to get {OUT_ITEM}
   Sell (Depth 5): Sell {IN_ITEMS} at a depth 5 Krell-Mart to get {OUT_ITEM}
 
+  Upgrade (FIX): Upgrade {IN_ITEMS} in a FIX room to get {OUT_ITEM}
+
 resources:
   ##############################################################################
   - H1: Action Items ###########################################################
@@ -1934,14 +1936,39 @@ resources:
     raw_resource: true
   - name: Eyeball
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Finger: 1
   - name: Hand
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Eyeball: 1
   - name: Spleen
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Hand: 1
   - name: Heart
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Spleen: 1
   - name: Head
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Heart: 1
   - name: Dust Pak (Small)
     raw_resource: true
   - name: Dust Pak (Medium)
@@ -1953,50 +1980,150 @@ resources:
     raw_resource: true
   - name: Tape Slug
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Hole Card: 1
   - name: E Cassette
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Tape Slug: 1
   - name: Floppy Cube
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          E Cassette: 1
   - name: Memstick
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Floppy Cube: 1
   - name: Hard Cube
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Memstick: 1
 
   - name: Scriber
     raw_resource: true
   - name: Optics
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Scriber: 1
   - name: Suit Tidy
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Optics: 1
   - name: Docu-mate
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Suit Tidy: 1
   - name: Mouse Mat
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Docu-mate: 1
   - name: Mylaroon
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Mouse Mat: 1
 
   - name: Coin
     raw_resource: true
   - name: Foon
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Coin: 1
   - name: Flange
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Foon: 1
   - name: Socket
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Flange: 1
   - name: Z-lock
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Socket: 1
   - name: Bracket
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          Z-lock: 1
 
   - name: AAA Battery
     raw_resource: true
   - name: AA Battery
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          AAA Battery: 1
   - name: A Battery
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          AA Battery: 1
   - name: B Battery
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          A Battery: 1
   - name: C Battery
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          B Battery: 1
   - name: D Battery
     raw_resource: true
+    recipes:
+      - output: 1
+        recipe_type: Upgrade (FIX)
+        requirements:
+          C Battery: 1
