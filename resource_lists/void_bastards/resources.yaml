@@ -1211,10 +1211,6 @@ resources:
         recipe_type: Salvage
         requirements:
           Dust Pak (10 Bio): 1
-      - output: 25
-        recipe_type: Salvage
-        requirements:
-          Dust Pak (25 Bio): 1
       - output: 50
         recipe_type: Salvage
         requirements:
@@ -2092,8 +2088,6 @@ resources:
         requirements:
           Heart: 1
   - name: Dust Pak (10 Bio)
-    raw_resource: true
-  - name: Dust Pak (25 Bio)
     raw_resource: true
   - name: Dust Pak (50 Bio)
     raw_resource: true
