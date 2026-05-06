@@ -1,68 +1,4 @@
-The Producer library is pretty complicated. The Most complex part being the scheduler.
-
-
-
-Build Log
-===
-In order to make configuration easier the producer library uses a build log that stores a history of all the build actions from the previous run of the program. This primarily serves as a way to allow us to skip steps that have already been built previously. But also lets us cull files from previous runs that are not part of current or future runs.
-
-
-
-Initial Updates
----
-
-Initial updates take care of several things, most importantly deletion of actions that have been previously completed without change.
-
-File State                      | Build Log Link | Assumed Action Event
---------------------------------|----------------|-----------
-Newer Outputs                   | Strong         | Nothing, Skip Processing
-Newer Inputs or missing Outputs | Strong         | Add,    Delete Build Log
-Newer Outputs                   | Weak           | Change, Delete build Log
-Newer Inputs or missing Outputs | Weak           | Change, Delete Build log
-Newer Outputs                   | None[^1]       | Remove, Delete Build Log
-Newer Inputs or missing Outputs | None[^1]       | Remove, Delete Build Log
-
-
-Inline Updates
----
-
-Other events happen during runtime execution of the producer actions.
-
-Action Event | Build Log Link | Result
--------------|----------------|--------
-Add          | Strong         | Delete Build Log
-Remove       | Strong         | Delete Build Log
-Change       | Strong         | Delete Build Log
-Nothing      | Strong         | Skip Processing
-Add          | Weak           | Delete Build Log
-Remove       | Weak           | Already Deleted
-Change       | Weak           | Already Deleted / Delete
-Nothing      | Weak           | Already Deleted
-Add          | None           | Nothing
-Remove       | None           | Nothing
-Change       | None           | Nothing
-Nothing      | None           | Nothing
-
-Action Event | Build Log Link | Result
--------------|----------------|--------
-Add          | Strong         | Delete Build Log
-Add          | Weak           | Delete Build Log
-Add          | None           | Nothing
-Change       | Strong         | Delete Build Log
-Change       | Weak           | Already Deleted / Delete Build Log
-Change       | None           | Nothing
-Remove       | Strong         | Delete Build Log
-Remove       | Weak           | Already Deleted
-Remove       | None           | Nothing
-Nothing      | Strong         | Skip Processing 
-Nothing      | Weak           | Already Deleted
-Nothing      | None           | Nothing
-
-
-
-
-
-How Producers Work
+How to use Producers
 ================================================================================
 Each producer is defined with three key components.
 1) Its unique name
@@ -96,7 +32,7 @@ on those output files properly.
 def example_function(input_files: SingleFile, groups: Dict[str, str]) -> List[str]:
 ```
 
-Regexes
+Producer Pattern Regexes
 ================================================================================
 
 Single Match Regexes
@@ -115,7 +51,7 @@ Producer(
 )
 ```
 
-If we had
+If we had the files
 ```
 index.html
 index.css
@@ -123,15 +59,18 @@ index.js
 external_library.js
 ```
 
-This producer will match each file and call `gz_compress_function()` once on
+Then this producer will match each file and call `gz_compress_function()` once on
 each file.
-
-
-
 
 
 Multi Match Regexes
 --------------------------------------------------------------------------------
+When we want a regex that matches mutliple files, such as ever file in a folder
+or every file with a specific prefix, or every file with a specific extension,
+then we can use a multimatch regex. The only difference in how they are defined
+is that a multi match regex is given as a single element array of the regex
+string, instead of just a regex string.
+
 ```python
 Producer(
     name="Pack Image",
@@ -143,11 +82,119 @@ Producer(
 ```
 
 
-Complex Matches
+Shared Element Matches
 --------------------------------------------------------------------------------
 Regex matches can have named match groups. These named match groups can bundle
 together different files to allow for specific combinations of files to be run
 together.
+
+```python
+Producer(
+    name="Pack Image",
+    input_path_patterns={
+        "file_metadata": r"^metadata_(?P<name>[a-z]+)\.json$",
+        "files": [r"^items/(?P<name>[a-z]+)/.*$"],
+    },
+    function=pack_function,
+)
+```
+
+This will return groups of files that all share the same "name" match.
+for example if we had the files
+
+```
+metadata_one.json
+metadata_two.json
+items/one/001.json
+items/one/002.json
+items/two/001.json
+items/two/002.json
+```
+
+we would get two sets of files
+
+```
+file_metadata="metadata_one.json"
+files=["items/one/001.json", "items/one/002.json"]
+```
+and
+```
+file_metadata="metadata_two.json"
+files=["items/two/001.json", "items/two/002.json"]
+```
+
+
+Producer Library Internals
+================================================================================
+The producer library handles a lot of complex systems to automatically build and schedule jobs dynamically. The rest of this file will include information on how that logic works at a high level for develoepers who wish to work on the producer library internals.
+
+
+Scheduler
+================================================================================
+
+Initial Updates
+--------------------------------------------------------------------------------
+Initial updates take care of several things, most importantly deletion of actions that have been previously completed without change.
+
+| File State                      | Build Log Link | Assumed Action Event      |
+|---------------------------------|----------------|---------------------------|
+| Newer Outputs                   | Strong         | Nothing, Skip Processing  |
+| Newer Inputs or missing Outputs | Strong         | Add,    Delete Build Log  |
+| Newer Outputs                   | Weak           | Change, Delete build Log  |
+| Newer Inputs or missing Outputs | Weak           | Change, Delete Build Log  |
+| Newer Outputs                   | None[^1]       | Remove, Delete Build Log  |
+| Newer Inputs or missing Outputs | None[^1]       | Remove, Delete Build Log  |
+
+
+Inline Updates
+--------------------------------------------------------------------------------
+Other events happen during runtime execution of the producer actions.
+
+| Action Event   | Build Log Link    | Result                                  |
+|----------------|-------------------|-----------------------------------------|
+| Add            | Strong            | Delete Build Log                        |
+| Remove         | Strong            | Delete Build Log                        |
+| Change         | Strong            | Delete Build Log                        |
+| Nothing        | Strong            | Skip Processing                         |
+| Add            | Weak              | Delete Build Log                        |
+| Remove         | Weak              | Already Deleted                         |
+| Change         | Weak              | Already Deleted / Delete                |
+| Nothing        | Weak              | Already Deleted                         |
+| Add            | None              | Nothing                                 |
+| Remove         | None              | Nothing                                 |
+| Change         | None              | Nothing                                 |
+| Nothing        | None              | Nothing                                 |
+
+| Action Event   | Build Log Link    | Result                                  |
+|----------------|-------------------|-----------------------------------------|
+| Add            | Strong            | Delete Build Log                        |
+| Add            | Weak              | Delete Build Log                        |
+| Add            | None              | Nothing                                 |
+| Change         | Strong            | Delete Build Log                        |
+| Change         | Weak              | Already Deleted / Delete Build Log      |
+| Change         | None              | Nothing                                 |
+| Remove         | Strong            | Delete Build Log                        |
+| Remove         | Weak              | Already Deleted                         |
+| Remove         | None              | Nothing                                 |
+| Nothing        | Strong            | Skip Processing                         |
+| Nothing        | Weak              | Already Deleted                         |
+| Nothing        | None              | Nothing                                 |
+
+
+
+
+
+
+
+Build Log
+================================================================================
+In order to make configuration easier to define, the producer library uses a
+build log that stores a history of all the build actions from the previous
+build. This primarily serves as a way to skip steps that were built previously.
+The build log also allows us prune files from previous builds that would need
+to be rebuilt or removed entirely.
+
+
 
 
 Gen2 of the producer lib

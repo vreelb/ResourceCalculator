@@ -70,7 +70,6 @@ class SqlFileSet(FileSet):
     #
     # A helper function to produce the name of the table that stores matches
     # for a particular field.
-    # TODO: The SQL logic should somehow be moved to scheduler.py
     ############################################################################
     @staticmethod
     def get_field_table_name(producer_index: int, field_id: str) -> str:
@@ -90,7 +89,6 @@ class SqlFileSet(FileSet):
     #
     # Create the cache database for storing all the files that match a producer
     # field, and then initialize all of the tables in the database.
-    # TODO: Logic from producers using sql commands should be moved to this
     # file instead.
     ############################################################################
     def init_producer_cache(self, producer_list: List[GenericProducer]) -> sqlite3.Connection:
@@ -424,7 +422,6 @@ class SqlFileSet(FileSet):
 # Parses the escaped comma string returned from the SQL query back into an
 # array. The query escapes all backslashes and commas, then uses a comma to
 # delimite each element in the array.
-# TODO: The SQL logic should somehow be moved to scheduler.py
 ################################################################################
 def parse_comma_escape(input_string: str) -> List[str]:
     output_strings: List[str] = [""]
