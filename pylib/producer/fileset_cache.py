@@ -242,7 +242,7 @@ class SqlFileSet(FileSet):
         #   real type.
         # List[Tuple[InputFileDatatype, Dict[str, str]]]:
     ) -> List[Tuple[Any, Dict[str, str]]]:
-        query_string = self.new_filesets_querystring(producer_index)
+        query_string = self._query_filesets_sql(producer_index)
 
         producer = self.producer_list[producer_index]
 
@@ -290,7 +290,7 @@ class SqlFileSet(FileSet):
 
         return output_data
 
-    def new_filesets_querystring(self, producer_index: int) -> str:
+    def _query_filesets_sql(self, producer_index: int) -> str:
         producer = self.producer_list[producer_index]
 
         # A list of columns to select. Should end up as the union between
