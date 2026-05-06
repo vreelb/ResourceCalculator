@@ -29,21 +29,21 @@ class ImagePackOutputFiles(TypedDict):
 ################################################################################
 def item_image_producers(calculator_dir_regex: str) -> List[GenericProducer]:
     return [
-        Producer(
+        Producer[MultiFile](
             name="Pack Image",
             input_path_patterns={
                 "files": [rf"^resource_lists/(?P<calculator_dir>{calculator_dir_regex})/items/.*$"],
             },
             function=image_pack_function,
         ),
-        Producer(
+        Producer[SingleFile](
             name="Compress Packed Image",
             input_path_patterns={
                 "file": rf"^cache/(?P<calculator_dir>{calculator_dir_regex})/packed_image\.png$",
             },
             function=image_compress_function,
         ),
-        Producer(
+        Producer[SingleFile](
             name="Copy Hashed Compressed Image",
             input_path_patterns={
                 "file": rf"^cache/(?P<calculator_dir>{calculator_dir_regex})/compressed_packed_image\.png$",

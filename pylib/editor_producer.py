@@ -16,7 +16,7 @@ from pylib.resource_list import ResourceList, get_primitive
 ################################################################################
 def editor_producers(calculator_dir_regex: str) -> List[GenericProducer]:
     return [
-        Producer(
+        Producer[EditorInputFiles](
             name="Build Editor page",
             input_path_patterns={
                 "resources_pickle": rf"^cache/(?P<calculator_dir>{calculator_dir_regex})/resources\.pickle$",

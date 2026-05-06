@@ -35,14 +35,14 @@ class LandingPageInputTypes(TypedDict):
 ################################################################################
 def landing_page_producers(calculator_dir_regex: str) -> List[GenericProducer]:
     return [
-        Producer(
+        Producer[SingleFile](
             name="Copy Calculator Icon",
             input_path_patterns={
                 "file": rf"^resource_lists/(?P<calculator_dir>{calculator_dir_regex})/icon\.jpg$",
             },
             function=hash_and_copy_file,
         ),
-        Producer(
+        Producer[LandingPageInputTypes](
             name="Build Landing Page",
             input_path_patterns={
                 "files": [rf"^cache/(?:{calculator_dir_regex})/page_metadata\.json$"],

@@ -21,7 +21,7 @@ def plugins_producers(calculator_dir_regex: str) -> List[GenericProducer]:
         return [destination_file]
 
     return [
-        Producer(
+        Producer[SingleFile](
             name="Copy Plugin Directories",
             input_path_patterns={
                 # TODO: Get rid of the full path capture group when the bug of
