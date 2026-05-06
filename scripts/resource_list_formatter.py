@@ -8,7 +8,6 @@ import os
 import sys
 import yaml
 import shutil
-import tempfile
 sys.path.append("../")
 from pylib.resource_list import ResourceList  # noqa: E402
 from pylib.yaml_token_load import ordered_load  # noqa: E402
