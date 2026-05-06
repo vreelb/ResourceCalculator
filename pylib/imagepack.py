@@ -32,27 +32,21 @@ def item_image_producers(calculator_dir_regex: str) -> List[GenericProducer]:
         Producer(
             name="Pack Image",
             input_path_patterns={
-                "files": [r"^resource_lists/(?P<calculator_dir>{calculator_dir_regex})/items/.*$".format(
-                    calculator_dir_regex=calculator_dir_regex
-                )],
+                "files": [rf"^resource_lists/(?P<calculator_dir>{calculator_dir_regex})/items/.*$"],
             },
             function=image_pack_function,
         ),
         Producer(
             name="Compress Packed Image",
             input_path_patterns={
-                "file": r"^cache/(?P<calculator_dir>{calculator_dir_regex})/packed_image\.png$".format(
-                    calculator_dir_regex=calculator_dir_regex
-                ),
+                "file": rf"^cache/(?P<calculator_dir>{calculator_dir_regex})/packed_image\.png$",
             },
             function=image_compress_function,
         ),
         Producer(
             name="Copy Hashed Compressed Image",
             input_path_patterns={
-                "file": r"^cache/(?P<calculator_dir>{calculator_dir_regex})/compressed_packed_image\.png$".format(
-                    calculator_dir_regex=calculator_dir_regex,
-                ),
+                "file": rf"^cache/(?P<calculator_dir>{calculator_dir_regex})/compressed_packed_image\.png$",
             },
             function=hash_and_copy_file,
         )

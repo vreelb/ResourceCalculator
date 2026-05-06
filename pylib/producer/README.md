@@ -160,9 +160,7 @@ The constraints we have are:
 ```python
 Producer(
     input_path_patterns={
-        "file": r"^(?P<fullpath>resource_lists/(?P<calculator_dir>{calculator_dir_regex})/plugins/.+/.+)$".format(
-            calculator_dir_regex=calculator_dir_regex
-        ),
+        "file": rf"^(?P<fullpath>resource_lists/(?P<calculator_dir>{calculator_dir_regex})/plugins/.+/.+)$",
     },
     function=producer_copyfile,
 )
@@ -193,9 +191,7 @@ def image_pack_function(input_files: MultiFile) -> List[str]:
 ```python
 Producer(
     input_path_patterns=SingleFile(
-        file=r"^(?P<fullpath>resource_lists/(?P<calculator_dir>{calculator_dir_regex})/plugins/.+/.+)$".format(
-            calculator_dir_regex=calculator_dir_regex
-        ),
+        file=rf"^(?P<fullpath>resource_lists/(?P<calculator_dir>{calculator_dir_regex})/plugins/.+/.+)$",
     ),
     function=producer_copyfile,
 )

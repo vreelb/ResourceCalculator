@@ -23,15 +23,9 @@ def calculator_producers(calculator_dir_regex: str) -> List[GenericProducer]:
     calculator_producer: Producer[CalculatorInputFiles] = Producer(
         name="Build Calculator Page",
         input_path_patterns={
-            "resources_pickle": r"^cache/(?P<calculator_dir>{calculator_dir_regex})/resources\.pickle$".format(
-                calculator_dir_regex=calculator_dir_regex
-            ),
-            "image_layout_json": r"^cache/(?P<calculator_dir>{calculator_dir_regex})/packed_image_layout\.json$".format(
-                calculator_dir_regex=calculator_dir_regex
-            ),
-            "image_metadata": r"^cache/(?P<calculator_dir>{calculator_dir_regex})/compressed_packed_image\.json$".format(
-                calculator_dir_regex=calculator_dir_regex
-            ),
+            "resources_pickle": rf"^cache/(?P<calculator_dir>{calculator_dir_regex})/resources\.pickle$",
+            "image_layout_json": rf"^cache/(?P<calculator_dir>{calculator_dir_regex})/packed_image_layout\.json$",
+            "image_metadata": rf"^cache/(?P<calculator_dir>{calculator_dir_regex})/compressed_packed_image\.json$",
             "css_filename_data": r"^cache/calculator\.css\.json",
             "calculator_template": r"^core/calculator\.html$",
             "recipe_type_display_function_template": r"^core/_recipe_type_display_functions\.js$",
