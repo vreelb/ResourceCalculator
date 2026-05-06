@@ -172,8 +172,8 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.clean:
-        shutil.rmtree("./cache")
-        shutil.rmtree("./build")
+        shutil.rmtree("./cache", ignore_errors=True)
+        shutil.rmtree("./build", ignore_errors=True)
         os.unlink(".buildevents.json")
 
     # if (args.watch):
