@@ -282,11 +282,7 @@ class SqlFileSet(FileSet):
                     group_id = producer.get_match_group_id(group_name)
                     groups[group_name] = row[columns_lookup["group_" + group_id]]
 
-                # If at least one file is updated then this creator should be
-                # constructed.
-                is_updated = row[columns_lookup["is_updated"]]
-                if is_updated > 0:
-                    output_data.append((new_element, groups))
+                output_data.append((new_element, groups))
 
         return output_data
 
@@ -346,10 +342,10 @@ class SqlFileSet(FileSet):
                 match_columns = [SqlFileSet.get_match_group_column_name(producer, match_group) for match_group in producer.get_match_groups(field_name)]
                 new_table_name = table_name + "_mod"
 
-                table_contents = "(SELECT GROUP_CONCAT(REPLACE(REPLACE(filename, '\\','\\\\'), ',', '\\,'), ',') as filename, {match_columns}, SUM(is_updated) as is_updated FROM {table_name} GROUP BY {match_columns}) as {new_table_name}".format(
+                table_contents = "(SELECT GROUP_CONCAT(REPLACE(REPLACE(filename, '\\', '\\\\'), ',', '\\,'), ',') as filename, {match_columns}, SUM(is_updated) as is_updated FROM {table_name} GROUP BY {match_columns}) as {new_table_name}".format(
                     table_name=table_name,
                     new_table_name=new_table_name,
-                    match_columns=",".join(match_columns)
+                    match_columns=", ".join(match_columns)
                 )
 
                 columns.append("GROUP_CONCAT({table_name}.filename, ',') AS {field_alias}".format(
