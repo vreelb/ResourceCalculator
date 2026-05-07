@@ -2,6 +2,12 @@ from typing import Callable, Generic, Protocol, List, Dict, cast
 from dataclasses import dataclass
 from .producer import InputFileDatatype
 
+################################################################################
+# The function call tracker module is used as part of the test framework to
+# track when a producer function is called so that we can validate that the
+# producer was called correctly.
+################################################################################
+
 
 @dataclass
 class FunctionCall(Generic[InputFileDatatype]):
