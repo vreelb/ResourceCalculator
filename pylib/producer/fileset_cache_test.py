@@ -65,7 +65,6 @@ class TestSQLFileSet(unittest.TestCase):
                     reduce_whitespace("""
                         CREATE TABLE producer0_field0_matches (
                             filename TEXT UNIQUE,
-                            is_updated INTEGER,
                             group_0 TEXT
                         );
                     """),
@@ -74,20 +73,18 @@ class TestSQLFileSet(unittest.TestCase):
                     INSERT INTO
                         producer0_field0_matches (
                             filename,
-                            is_updated,
                             group_0
                         )
-                    VALUES (?, ?, ?)
+                    VALUES (?, ?)
                 """),
                 insert_file_filename="rndm_filename",
                 insert_file_groups={"__file": "rndm_group_value"},
-                insert_file_sql_binds=["rndm_filename", '1', "rndm_group_value"],
+                insert_file_sql_binds=["rndm_filename", "rndm_group_value"],
 
                 query_filesets_sql=reduce_whitespace("""
                     SELECT
                         producer0_field0_matches.filename AS "field_0",
-                        producer0_field0_matches.group_0,
-                        SUM(producer0_field0_matches.is_updated) AS "is_updated"
+                        producer0_field0_matches.group_0
                     FROM
                         producer0_field0_matches
                     WHERE 1=1
@@ -101,25 +98,23 @@ class TestSQLFileSet(unittest.TestCase):
                 },
                 test_fieldname="file",
                 init_tables_sql=[
-                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT);",
+                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, group_0 TEXT);",
                 ],
                 insert_file_sql=reduce_whitespace("""
                     INSERT INTO
                         producer0_field0_matches (
                             filename,
-                            is_updated,
                             group_0
                         )
-                    VALUES (?, ?, ?)
+                    VALUES (?, ?)
                 """),
                 insert_file_filename="rndm_filename",
                 insert_file_groups={"firstgroup": "rndm_group_value"},
-                insert_file_sql_binds=["rndm_filename", "1", "rndm_group_value"],
+                insert_file_sql_binds=["rndm_filename", "rndm_group_value"],
                 query_filesets_sql=reduce_whitespace("""
                     SELECT
                         producer0_field0_matches.filename AS "field_0",
-                        producer0_field0_matches.group_0,
-                        SUM(producer0_field0_matches.is_updated) AS "is_updated"
+                        producer0_field0_matches.group_0
                     FROM
                         producer0_field0_matches
                     WHERE 1=1
@@ -134,27 +129,25 @@ class TestSQLFileSet(unittest.TestCase):
                 },
                 test_fieldname="file",
                 init_tables_sql=[
-                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT, group_1 TEXT);",
+                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, group_0 TEXT, group_1 TEXT);",
                 ],
                 insert_file_sql=reduce_whitespace("""
                     INSERT INTO
                         producer0_field0_matches (
                             filename,
-                            is_updated,
                             group_0,
                             group_1
                         )
-                    VALUES (?, ?, ?, ?)
+                    VALUES (?, ?, ?)
                 """),
                 insert_file_filename="rndm_filename",
                 insert_file_groups={"firstgroup": "rndm_group_value", "secondgroup": "rndm_group_value2"},
-                insert_file_sql_binds=["rndm_filename", '1', "rndm_group_value", "rndm_group_value2"],
+                insert_file_sql_binds=["rndm_filename", "rndm_group_value", "rndm_group_value2"],
                 query_filesets_sql=reduce_whitespace("""
                     SELECT
                         producer0_field0_matches.filename AS "field_0",
                         producer0_field0_matches.group_0,
-                        producer0_field0_matches.group_1,
-                        SUM(producer0_field0_matches.is_updated) AS "is_updated"
+                        producer0_field0_matches.group_1
                     FROM
                         producer0_field0_matches
                     WHERE 1=1
@@ -170,7 +163,7 @@ class TestSQLFileSet(unittest.TestCase):
                 },
                 test_fieldname="file1",
                 init_tables_sql=[
-                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT);",
+                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, group_0 TEXT);",
                 ],
                 insert_file_filename="rndm_filename",
                 insert_file_groups={"__file1": "rndm_group_value"},
@@ -178,23 +171,20 @@ class TestSQLFileSet(unittest.TestCase):
                     INSERT INTO
                         producer0_field0_matches (
                             filename,
-                            is_updated,
                             group_0
                         )
-                    VALUES (?, ?, ?)
+                    VALUES (?, ?)
                 """),
-                insert_file_sql_binds=["rndm_filename", '1', "rndm_group_value"],
+                insert_file_sql_binds=["rndm_filename", "rndm_group_value"],
                 query_filesets_sql=reduce_whitespace("""
                     SELECT
                         GROUP_CONCAT(producer0_field0_matches_mod.filename, ',') AS "field_0",
-                        producer0_field0_matches_mod.group_0,
-                        SUM(producer0_field0_matches_mod.is_updated) AS "is_updated"
+                        producer0_field0_matches_mod.group_0
                     FROM
                         (
                             SELECT
                                 GROUP_CONCAT(REPLACE(REPLACE(filename, '\\', '\\\\'), ',', '\\,'), ',') as filename,
-                                group_0,
-                                SUM(is_updated) as is_updated
+                                group_0
                             FROM
                                 producer0_field0_matches
                             GROUP BY
@@ -212,7 +202,7 @@ class TestSQLFileSet(unittest.TestCase):
                 },
                 test_fieldname="file1",
                 init_tables_sql=[
-                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT);",
+                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, group_0 TEXT);",
                 ],
                 insert_file_filename="rndm_filename",
                 insert_file_groups={"firstgroup": "rndm_group_value"},
@@ -220,23 +210,20 @@ class TestSQLFileSet(unittest.TestCase):
                     INSERT INTO
                         producer0_field0_matches (
                             filename,
-                            is_updated,
                             group_0
                         )
-                    VALUES (?, ?, ?)
+                    VALUES (?, ?)
                 """),
-                insert_file_sql_binds=["rndm_filename", '1', "rndm_group_value"],
+                insert_file_sql_binds=["rndm_filename", "rndm_group_value"],
                 query_filesets_sql=reduce_whitespace("""
                     SELECT
                         GROUP_CONCAT(producer0_field0_matches_mod.filename, ',') AS "field_0",
-                        producer0_field0_matches_mod.group_0,
-                        SUM(producer0_field0_matches_mod.is_updated) AS "is_updated"
+                        producer0_field0_matches_mod.group_0
                     FROM
                         (
                             SELECT
                                 GROUP_CONCAT(REPLACE(REPLACE(filename, '\\', '\\\\'), ',', '\\,'), ',') as filename,
-                                group_0,
-                                SUM(is_updated) as is_updated
+                                group_0
                             FROM
                                 producer0_field0_matches
                             GROUP BY
@@ -255,7 +242,7 @@ class TestSQLFileSet(unittest.TestCase):
                 },
                 test_fieldname="file1",
                 init_tables_sql=[
-                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT, group_1 TEXT);",
+                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, group_0 TEXT, group_1 TEXT);",
                 ],
                 insert_file_filename="rndm_filename",
                 insert_file_groups={"firstgroup": "rndm_group_value", "secondgroup": "rndm_group_value2"},
@@ -263,26 +250,23 @@ class TestSQLFileSet(unittest.TestCase):
                     INSERT INTO
                         producer0_field0_matches (
                             filename,
-                            is_updated,
                             group_0,
                             group_1
                         )
-                    VALUES (?, ?, ?, ?)
+                    VALUES (?, ?, ?)
                 """),
-                insert_file_sql_binds=["rndm_filename", '1', "rndm_group_value", "rndm_group_value2"],
+                insert_file_sql_binds=["rndm_filename", "rndm_group_value", "rndm_group_value2"],
                 query_filesets_sql=reduce_whitespace("""
                     SELECT
                         GROUP_CONCAT(producer0_field0_matches_mod.filename, ',') AS "field_0",
                         producer0_field0_matches_mod.group_0,
-                        producer0_field0_matches_mod.group_1,
-                        SUM(producer0_field0_matches_mod.is_updated) AS "is_updated"
+                        producer0_field0_matches_mod.group_1
                     FROM
                         (
                             SELECT
                                 GROUP_CONCAT(REPLACE(REPLACE(filename, '\\', '\\\\'), ',', '\\,'), ',') as filename,
                                 group_0,
-                                group_1,
-                                SUM(is_updated) as is_updated
+                                group_1
                             FROM
                                 producer0_field0_matches
                             GROUP BY
@@ -304,8 +288,8 @@ class TestSQLFileSet(unittest.TestCase):
                 },
                 test_fieldname="file1",
                 init_tables_sql=[
-                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT);",
-                    "CREATE TABLE producer0_field1_matches (filename TEXT UNIQUE, is_updated INTEGER, group_1 TEXT);",
+                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, group_0 TEXT);",
+                    "CREATE TABLE producer0_field1_matches (filename TEXT UNIQUE, group_1 TEXT);",
                 ],
                 insert_file_filename="rndm_filename",
                 insert_file_groups={"__file1": "rndm_group_value"},
@@ -313,19 +297,17 @@ class TestSQLFileSet(unittest.TestCase):
                     INSERT INTO
                         producer0_field0_matches (
                             filename,
-                            is_updated,
                             group_0
                         )
-                    VALUES (?, ?, ?)
+                    VALUES (?, ?)
                 """),
-                insert_file_sql_binds=["rndm_filename", '1', "rndm_group_value"],
+                insert_file_sql_binds=["rndm_filename", "rndm_group_value"],
                 query_filesets_sql=reduce_whitespace("""
                     SELECT
                         producer0_field0_matches.filename AS "field_0",
                         producer0_field1_matches.filename AS "field_1",
                         producer0_field0_matches.group_0,
-                        producer0_field1_matches.group_1,
-                        SUM(producer0_field0_matches.is_updated+producer0_field1_matches.is_updated) AS "is_updated"
+                        producer0_field1_matches.group_1
                     FROM
                         producer0_field0_matches,
                         producer0_field1_matches
@@ -343,8 +325,8 @@ class TestSQLFileSet(unittest.TestCase):
                 },
                 test_fieldname="file1",
                 init_tables_sql=[
-                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT);",
-                    "CREATE TABLE producer0_field1_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT);",
+                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, group_0 TEXT);",
+                    "CREATE TABLE producer0_field1_matches (filename TEXT UNIQUE, group_0 TEXT);",
                 ],
                 insert_file_filename="rndm_filename",
                 insert_file_groups={"firstgroup": "rndm_group_value"},
@@ -352,18 +334,16 @@ class TestSQLFileSet(unittest.TestCase):
                     INSERT INTO
                         producer0_field0_matches (
                             filename,
-                            is_updated,
                             group_0
                         )
-                    VALUES (?, ?, ?)
+                    VALUES (?, ?)
                 """),
-                insert_file_sql_binds=["rndm_filename", '1', "rndm_group_value"],
+                insert_file_sql_binds=["rndm_filename", "rndm_group_value"],
                 query_filesets_sql=reduce_whitespace("""
                     SELECT
                         producer0_field0_matches.filename AS "field_0",
                         producer0_field1_matches.filename AS "field_1",
-                        producer0_field0_matches.group_0,
-                        SUM(producer0_field0_matches.is_updated+producer0_field1_matches.is_updated) AS "is_updated"
+                        producer0_field0_matches.group_0
                     FROM
                         producer0_field0_matches,
                         producer0_field1_matches
@@ -381,8 +361,8 @@ class TestSQLFileSet(unittest.TestCase):
                 },
                 test_fieldname="file1",
                 init_tables_sql=[
-                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT, group_1 TEXT);",
-                    "CREATE TABLE producer0_field1_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT, group_1 TEXT);",
+                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, group_0 TEXT, group_1 TEXT);",
+                    "CREATE TABLE producer0_field1_matches (filename TEXT UNIQUE, group_0 TEXT, group_1 TEXT);",
                 ],
                 insert_file_filename="rndm_filename",
                 insert_file_groups={"firstgroup": "rndm_group_value", "secondgroup": "rndm_group_value2"},
@@ -390,20 +370,18 @@ class TestSQLFileSet(unittest.TestCase):
                     INSERT INTO
                         producer0_field0_matches (
                             filename,
-                            is_updated,
                             group_0,
                             group_1
                         )
-                    VALUES (?, ?, ?, ?)
+                    VALUES (?, ?, ?)
                 """),
-                insert_file_sql_binds=["rndm_filename", '1', "rndm_group_value", "rndm_group_value2"],
+                insert_file_sql_binds=["rndm_filename", "rndm_group_value", "rndm_group_value2"],
                 query_filesets_sql=reduce_whitespace("""
                     SELECT
                         producer0_field0_matches.filename AS "field_0",
                         producer0_field1_matches.filename AS "field_1",
                         producer0_field0_matches.group_0,
-                        producer0_field0_matches.group_1,
-                        SUM(producer0_field0_matches.is_updated+producer0_field1_matches.is_updated) AS "is_updated"
+                        producer0_field0_matches.group_1
                     FROM
                         producer0_field0_matches,
                         producer0_field1_matches
@@ -423,8 +401,8 @@ class TestSQLFileSet(unittest.TestCase):
                 },
                 test_fieldname="file1",
                 init_tables_sql=[
-                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT);",
-                    "CREATE TABLE producer0_field1_matches (filename TEXT UNIQUE, is_updated INTEGER, group_1 TEXT);",
+                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, group_0 TEXT);",
+                    "CREATE TABLE producer0_field1_matches (filename TEXT UNIQUE, group_1 TEXT);",
                 ],
                 insert_file_filename="rndm_filename",
                 insert_file_groups={"__file1": "rndm_group_value"},
@@ -432,25 +410,22 @@ class TestSQLFileSet(unittest.TestCase):
                     INSERT INTO
                         producer0_field0_matches (
                             filename,
-                            is_updated,
                             group_0
                         )
-                    VALUES (?, ?, ?)
+                    VALUES (?, ?)
                 """),
-                insert_file_sql_binds=["rndm_filename", '1', "rndm_group_value"],
+                insert_file_sql_binds=["rndm_filename", "rndm_group_value"],
                 query_filesets_sql=reduce_whitespace("""
                     SELECT
                         GROUP_CONCAT(producer0_field0_matches_mod.filename, ',') AS "field_0",
                         GROUP_CONCAT(producer0_field1_matches_mod.filename, ',') AS "field_1",
                         producer0_field0_matches_mod.group_0,
-                        producer0_field1_matches_mod.group_1,
-                        SUM(producer0_field0_matches_mod.is_updated+producer0_field1_matches_mod.is_updated) AS "is_updated"
+                        producer0_field1_matches_mod.group_1
                     FROM
                         (
                             SELECT
                                 GROUP_CONCAT(REPLACE(REPLACE(filename, '\\', '\\\\'), ',', '\\,'), ',') as filename,
-                                group_0,
-                                SUM(is_updated) as is_updated
+                                group_0
                             FROM
                                 producer0_field0_matches
                             GROUP BY
@@ -459,8 +434,7 @@ class TestSQLFileSet(unittest.TestCase):
                         (
                             SELECT
                                 GROUP_CONCAT(REPLACE(REPLACE(filename, '\\', '\\\\'), ',', '\\,'), ',') as filename,
-                                group_1,
-                                SUM(is_updated) as is_updated
+                                group_1
                             FROM
                                 producer0_field1_matches
                             GROUP BY
@@ -480,8 +454,8 @@ class TestSQLFileSet(unittest.TestCase):
                 },
                 test_fieldname="file1",
                 init_tables_sql=[
-                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT);",
-                    "CREATE TABLE producer0_field1_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT);",
+                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, group_0 TEXT);",
+                    "CREATE TABLE producer0_field1_matches (filename TEXT UNIQUE, group_0 TEXT);",
                 ],
                 insert_file_filename="rndm_filename",
                 insert_file_groups={"firstgroup": "rndm_group_value"},
@@ -489,24 +463,21 @@ class TestSQLFileSet(unittest.TestCase):
                     INSERT INTO
                         producer0_field0_matches (
                             filename,
-                            is_updated,
                             group_0
                         )
-                    VALUES (?, ?, ?)
+                    VALUES (?, ?)
                 """),
-                insert_file_sql_binds=["rndm_filename", '1', "rndm_group_value"],
+                insert_file_sql_binds=["rndm_filename", "rndm_group_value"],
                 query_filesets_sql=reduce_whitespace("""
                     SELECT
                         GROUP_CONCAT(producer0_field0_matches_mod.filename, ',') AS "field_0",
                         GROUP_CONCAT(producer0_field1_matches_mod.filename, ',') AS "field_1",
-                        producer0_field0_matches_mod.group_0,
-                        SUM(producer0_field0_matches_mod.is_updated+producer0_field1_matches_mod.is_updated) AS "is_updated"
+                        producer0_field0_matches_mod.group_0
                     FROM
                         (
                             SELECT
                                 GROUP_CONCAT(REPLACE(REPLACE(filename, '\\', '\\\\'), ',', '\\,'), ',') as filename,
-                                group_0,
-                                SUM(is_updated) as is_updated
+                                group_0
                             FROM
                                 producer0_field0_matches
                             GROUP BY
@@ -515,8 +486,7 @@ class TestSQLFileSet(unittest.TestCase):
                         (
                             SELECT
                                 GROUP_CONCAT(REPLACE(REPLACE(filename, '\\', '\\\\'), ',', '\\,'), ',') as filename,
-                                group_0,
-                                SUM(is_updated) as is_updated
+                                group_0
                             FROM
                                 producer0_field1_matches
                             GROUP BY
@@ -536,8 +506,8 @@ class TestSQLFileSet(unittest.TestCase):
                 },
                 test_fieldname="file1",
                 init_tables_sql=[
-                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT, group_1 TEXT);",
-                    "CREATE TABLE producer0_field1_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT, group_1 TEXT);",
+                    "CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, group_0 TEXT, group_1 TEXT);",
+                    "CREATE TABLE producer0_field1_matches (filename TEXT UNIQUE, group_0 TEXT, group_1 TEXT);",
                 ],
                 insert_file_filename="rndm_filename",
                 insert_file_groups={"firstgroup": "rndm_group_value", "secondgroup": "rndm_group_value2"},
@@ -545,27 +515,24 @@ class TestSQLFileSet(unittest.TestCase):
                     INSERT INTO
                         producer0_field0_matches (
                             filename,
-                            is_updated,
                             group_0,
                             group_1
                         )
-                    VALUES (?, ?, ?, ?)
+                    VALUES (?, ?, ?)
                 """),
-                insert_file_sql_binds=["rndm_filename", '1', "rndm_group_value", "rndm_group_value2"],
+                insert_file_sql_binds=["rndm_filename", "rndm_group_value", "rndm_group_value2"],
                 query_filesets_sql=reduce_whitespace("""
                     SELECT
                         GROUP_CONCAT(producer0_field0_matches_mod.filename, ',') AS "field_0",
                         GROUP_CONCAT(producer0_field1_matches_mod.filename, ',') AS "field_1",
                         producer0_field0_matches_mod.group_0,
-                        producer0_field0_matches_mod.group_1,
-                        SUM(producer0_field0_matches_mod.is_updated+producer0_field1_matches_mod.is_updated) AS "is_updated"
+                        producer0_field0_matches_mod.group_1
                     FROM
                         (
                             SELECT
                                 GROUP_CONCAT(REPLACE(REPLACE(filename, '\\', '\\\\'), ',', '\\,'), ',') as filename,
                                 group_0,
-                                group_1,
-                                SUM(is_updated) as is_updated
+                                group_1
                             FROM
                                 producer0_field0_matches
                             GROUP BY
@@ -576,8 +543,7 @@ class TestSQLFileSet(unittest.TestCase):
                             SELECT
                                 GROUP_CONCAT(REPLACE(REPLACE(filename, '\\', '\\\\'), ',', '\\,'), ',') as filename,
                                 group_0,
-                                group_1,
-                                SUM(is_updated) as is_updated
+                                group_1
                             FROM
                                 producer0_field1_matches
                             GROUP BY
@@ -601,8 +567,8 @@ class TestSQLFileSet(unittest.TestCase):
                 },
                 test_fieldname="file1",
                 init_tables_sql=[
-                    'CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT);',
-                    'CREATE TABLE producer0_field1_matches (filename TEXT UNIQUE, is_updated INTEGER, group_1 TEXT);',
+                    'CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, group_0 TEXT);',
+                    'CREATE TABLE producer0_field1_matches (filename TEXT UNIQUE, group_1 TEXT);',
                 ],
                 insert_file_filename="rndm_filename",
                 insert_file_groups={"__file1": "randomvalue"},
@@ -610,26 +576,23 @@ class TestSQLFileSet(unittest.TestCase):
                     INSERT INTO
                         producer0_field0_matches (
                             filename,
-                            is_updated,
                             group_0
                         )
-                    VALUES (?, ?, ?)
+                    VALUES (?, ?)
                 """),
-                insert_file_sql_binds=['rndm_filename', '1', 'randomvalue'],
+                insert_file_sql_binds=['rndm_filename', 'randomvalue'],
                 query_filesets_sql=reduce_whitespace("""
                     SELECT
                         producer0_field0_matches.filename AS "field_0",
                         GROUP_CONCAT(producer0_field1_matches_mod.filename, ',') AS "field_1",
                         producer0_field0_matches.group_0,
-                        producer0_field1_matches_mod.group_1,
-                        SUM(producer0_field0_matches.is_updated+producer0_field1_matches_mod.is_updated) AS "is_updated"
+                        producer0_field1_matches_mod.group_1
                     FROM
                         producer0_field0_matches,
                         (
                             SELECT
                                 GROUP_CONCAT(REPLACE(REPLACE(filename, '\\', '\\\\'), ',', '\\,'), ',') as filename,
-                                group_1,
-                                SUM(is_updated) as is_updated
+                                group_1
                             FROM
                                 producer0_field1_matches
                             GROUP BY
@@ -649,8 +612,8 @@ class TestSQLFileSet(unittest.TestCase):
                 },
                 test_fieldname="file1",
                 init_tables_sql=[
-                    'CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT);',
-                    'CREATE TABLE producer0_field1_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT);',
+                    'CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, group_0 TEXT);',
+                    'CREATE TABLE producer0_field1_matches (filename TEXT UNIQUE, group_0 TEXT);',
                 ],
                 insert_file_filename="rndm_filename",
                 insert_file_groups={"firstgroup": "randomvalue"},
@@ -658,25 +621,22 @@ class TestSQLFileSet(unittest.TestCase):
                     INSERT INTO
                         producer0_field0_matches (
                             filename,
-                            is_updated,
                             group_0
                         )
-                    VALUES (?, ?, ?)
+                    VALUES (?, ?)
                 """),
-                insert_file_sql_binds=['rndm_filename', '1', 'randomvalue'],
+                insert_file_sql_binds=['rndm_filename', 'randomvalue'],
                 query_filesets_sql=reduce_whitespace("""
                     SELECT
                         producer0_field0_matches.filename AS "field_0",
                         GROUP_CONCAT(producer0_field1_matches_mod.filename, ',') AS "field_1",
-                        producer0_field0_matches.group_0,
-                        SUM(producer0_field0_matches.is_updated+producer0_field1_matches_mod.is_updated) AS "is_updated"
+                        producer0_field0_matches.group_0
                     FROM
                         producer0_field0_matches,
                         (
                             SELECT
                                 GROUP_CONCAT(REPLACE(REPLACE(filename, '\\', '\\\\'), ',', '\\,'), ',') as filename,
-                                group_0,
-                                SUM(is_updated) as is_updated
+                                group_0
                             FROM
                                 producer0_field1_matches
                             GROUP BY
@@ -696,8 +656,8 @@ class TestSQLFileSet(unittest.TestCase):
                 },
                 test_fieldname="file1",
                 init_tables_sql=[
-                    'CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT, group_1 TEXT);',
-                    'CREATE TABLE producer0_field1_matches (filename TEXT UNIQUE, is_updated INTEGER, group_0 TEXT, group_1 TEXT);',
+                    'CREATE TABLE producer0_field0_matches (filename TEXT UNIQUE, group_0 TEXT, group_1 TEXT);',
+                    'CREATE TABLE producer0_field1_matches (filename TEXT UNIQUE, group_0 TEXT, group_1 TEXT);',
                 ],
                 insert_file_filename="rndm_filename",
                 insert_file_groups={"firstgroup": "randomvalue", "secondgroup": "anotherrandomvalue"},
@@ -705,28 +665,25 @@ class TestSQLFileSet(unittest.TestCase):
                     INSERT INTO
                         producer0_field0_matches (
                             filename,
-                            is_updated,
                             group_0,
                             group_1
                         )
-                    VALUES (?, ?, ?, ?)
+                    VALUES (?, ?, ?)
                 """),
-                insert_file_sql_binds=['rndm_filename', '1', 'randomvalue', 'anotherrandomvalue'],
+                insert_file_sql_binds=['rndm_filename', 'randomvalue', 'anotherrandomvalue'],
                 query_filesets_sql=reduce_whitespace("""
                     SELECT
                         producer0_field0_matches.filename AS "field_0",
                         GROUP_CONCAT(producer0_field1_matches_mod.filename, ',') AS "field_1",
                         producer0_field0_matches.group_0,
-                        producer0_field0_matches.group_1,
-                        SUM(producer0_field0_matches.is_updated+producer0_field1_matches_mod.is_updated) AS "is_updated"
+                        producer0_field0_matches.group_1
                     FROM
                         producer0_field0_matches,
                         (
                             SELECT
                                 GROUP_CONCAT(REPLACE(REPLACE(filename, '\\', '\\\\'), ',', '\\,'), ',') as filename,
                                 group_0,
-                                group_1,
-                                SUM(is_updated) as is_updated
+                                group_1
                             FROM
                                 producer0_field1_matches
                             GROUP BY

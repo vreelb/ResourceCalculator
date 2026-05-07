@@ -104,7 +104,6 @@ class SqlFileSet(FileSet):
 
             table_columns: List[str] = [
                 "filename TEXT UNIQUE",
-                "is_updated INTEGER",
             ]
 
             for group_name in producer.get_match_groups(field_name):
@@ -160,11 +159,10 @@ class SqlFileSet(FileSet):
         field_id = producer.get_field_id(field_name)
         table_name = _get_field_table_name(producer_index=producer_index, field_id=field_id)
 
-        fields = ["filename", "is_updated"] + [_get_match_group_column_name(producer=producer, group_name=group_name) for group_name in groups.keys()]
+        fields = ["filename"] + [_get_match_group_column_name(producer=producer, group_name=group_name) for group_name in groups.keys()]
 
-        binds: List[str] = [filename, "1"] + list(groups.values())
+        binds: List[str] = [filename] + list(groups.values())
 
-        # query_string: str = "INSERT INTO {table} ({fields}) VALUES ({value_binds}) ON CONFLICT(filename) DO UPDATE SET is_updated=1".format(
         query_string: str = "INSERT INTO {table} ({fields}) VALUES ({value_binds})".format(
             table=table_name,
             fields=", ".join(fields),
@@ -287,8 +285,6 @@ class SqlFileSet(FileSet):
 
         field_wheres: List[str] = []
 
-        update_tracking_columns: List[str] = []
-
         # mypy complains about iterating over a typeddict even though it is a dict
         for field_name, field_value in producer.input_path_patterns_dict().items():
             if field_value == "":
@@ -322,7 +318,7 @@ class SqlFileSet(FileSet):
                 match_columns = [_get_match_group_column_name(producer, match_group) for match_group in producer.get_match_groups(field_name)]
                 new_table_name = table_name + "_mod"
 
-                table_contents = "(SELECT GROUP_CONCAT(REPLACE(REPLACE(filename, '\\', '\\\\'), ',', '\\,'), ',') as filename, {match_columns}, SUM(is_updated) as is_updated FROM {table_name} GROUP BY {match_columns}) as {new_table_name}".format(
+                table_contents = "(SELECT GROUP_CONCAT(REPLACE(REPLACE(filename, '\\', '\\\\'), ',', '\\,'), ',') as filename, {match_columns} FROM {table_name} GROUP BY {match_columns}) as {new_table_name}".format(
                     table_name=table_name,
                     new_table_name=new_table_name,
                     match_columns=", ".join(match_columns)
@@ -345,12 +341,6 @@ class SqlFileSet(FileSet):
                     field_groups[match_group_name] = []
 
                 field_groups[match_group_name].append(table_name)
-
-            # Add the is_updated column from this table to the list of columns
-            # to sum as a check if any of the files inside are updated.
-            update_tracking_columns.append("{table_name}.is_updated".format(
-                table_name=table_name
-            ))
 
         field_joins: List[str] = []
         for match_group_name, group_tables in field_groups.items():
@@ -375,12 +365,6 @@ class SqlFileSet(FileSet):
         # left until we re-evaluate the query again.
         if len(field_joins) == 0:
             field_joins = ["1=1"]
-
-        columns.append(
-            "SUM({}) AS \"is_updated\"".format(
-                "+".join(update_tracking_columns)
-            )
-        )
 
         query_string = "SELECT {columns} FROM {field_tables} WHERE {field_wheres} GROUP BY {group_by_columns};".format(
             columns=", ".join(columns),
