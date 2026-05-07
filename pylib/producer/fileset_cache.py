@@ -66,25 +66,6 @@ class SqlFileSet(FileSet):
         return self._query_filesets(self.db, producer_index)
 
     ############################################################################
-    # get_field_table_name
-    #
-    # A helper function to produce the name of the table that stores matches
-    # for a particular field.
-    ############################################################################
-    @staticmethod
-    def get_field_table_name(producer_index: int, field_id: str) -> str:
-        return "producer{producer_index}_field{field_id}_matches".format(
-            producer_index=producer_index,
-            field_id=field_id
-        )
-
-    @staticmethod
-    def get_match_group_column_name(producer: GenericProducer, group_name: str) -> str:
-        return "group_{group_id}".format(
-            group_id=producer.get_match_group_id(group_name)
-        )
-
-    ############################################################################
     # init_producer_cache
     #
     # Create the cache database for storing all the files that match a producer
@@ -116,7 +97,7 @@ class SqlFileSet(FileSet):
 
             field_id: str = producer.get_field_id(field_name)
 
-            field_table_name = SqlFileSet.get_field_table_name(
+            field_table_name = _get_field_table_name(
                 producer_index=producer_index,
                 field_id=field_id
             )
@@ -127,8 +108,7 @@ class SqlFileSet(FileSet):
             ]
 
             for group_name in producer.get_match_groups(field_name):
-
-                table_columns.append(SqlFileSet.get_match_group_column_name(
+                table_columns.append(_get_match_group_column_name(
                     producer=producer,
                     group_name=group_name,
                 ) + " TEXT")
@@ -178,9 +158,9 @@ class SqlFileSet(FileSet):
     ) -> Tuple[str, List[str]]:
         producer = self.producer_list[producer_index]
         field_id = producer.get_field_id(field_name)
-        table_name = SqlFileSet.get_field_table_name(producer_index=producer_index, field_id=field_id)
+        table_name = _get_field_table_name(producer_index=producer_index, field_id=field_id)
 
-        fields = ["filename", "is_updated"] + [SqlFileSet.get_match_group_column_name(producer=producer, group_name=group_name) for group_name in groups.keys()]
+        fields = ["filename", "is_updated"] + [_get_match_group_column_name(producer=producer, group_name=group_name) for group_name in groups.keys()]
 
         binds: List[str] = [filename, "1"] + list(groups.values())
 
@@ -217,7 +197,7 @@ class SqlFileSet(FileSet):
     ) -> str:
 
         producer = self.producer_list[producer_index]
-        table_name = SqlFileSet.get_field_table_name(
+        table_name = _get_field_table_name(
             producer_index=producer_index,
             field_id=producer.get_field_id(field_name)
         )
@@ -318,7 +298,7 @@ class SqlFileSet(FileSet):
 
             field_id = producer.get_field_id(field_name)
 
-            table_name = SqlFileSet.get_field_table_name(
+            table_name = _get_field_table_name(
                 producer_index=producer_index,
                 field_id=field_id
             )
@@ -339,7 +319,7 @@ class SqlFileSet(FileSet):
             # If the field is a list then we want to grab each file and put it into a list
             # this is done by using
             elif isinstance(field_value, list):
-                match_columns = [SqlFileSet.get_match_group_column_name(producer, match_group) for match_group in producer.get_match_groups(field_name)]
+                match_columns = [_get_match_group_column_name(producer, match_group) for match_group in producer.get_match_groups(field_name)]
                 new_table_name = table_name + "_mod"
 
                 table_contents = "(SELECT GROUP_CONCAT(REPLACE(REPLACE(filename, '\\', '\\\\'), ',', '\\,'), ',') as filename, {match_columns}, SUM(is_updated) as is_updated FROM {table_name} GROUP BY {match_columns}) as {new_table_name}".format(
@@ -378,14 +358,14 @@ class SqlFileSet(FileSet):
 
             columns.append("{first_table}.{group_column_name}".format(
                 first_table=first_table,
-                group_column_name=SqlFileSet.get_match_group_column_name(producer, match_group_name)
+                group_column_name=_get_match_group_column_name(producer, match_group_name)
             ))
             group_by_columns.append(str(len(columns)))
 
             for table in group_tables[1:]:
                 field_joins.append("{first_table}.{group_column_name} = {table}.{group_column_name}".format(
                     first_table=first_table,
-                    group_column_name=SqlFileSet.get_match_group_column_name(producer, match_group_name),
+                    group_column_name=_get_match_group_column_name(producer, match_group_name),
                     table=table,
                 ))
 
@@ -433,3 +413,27 @@ def parse_comma_escape(input_string: str) -> List[str]:
         last_character = character
 
     return output_strings
+
+
+################################################################################
+# get_field_table_name
+#
+# A helper function to produce the name of the table that stores matches
+# for a particular field.
+################################################################################
+def _get_field_table_name(producer_index: int, field_id: str) -> str:
+    return "producer{producer_index}_field{field_id}_matches".format(
+        producer_index=producer_index,
+        field_id=field_id
+    )
+
+################################################################################
+# get_match_group_column_name
+#
+# A helper function to produce the name of the column that corrisponds to a
+# particular named regex match group.
+################################################################################
+def _get_match_group_column_name(producer: GenericProducer, group_name: str) -> str:
+    return "group_{group_id}".format(
+        group_id=producer.get_match_group_id(group_name)
+    )
