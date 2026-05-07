@@ -183,7 +183,9 @@ Other events happen during runtime execution of the producer actions.
 
 
 
-
+SQLLiteFileset
+================================================================================
+An in memory sqlite database is used inside of `fileset_cache.py`. It is used to take advantage of the join mechanics of sql to enumerate all of the files that belong to a given fileset. Each file field of each producer get's its own table containing a column for each of the regex match groups that file field has within its regex, then a query is done across all the file fields for a producer to identify the list of filesets that the producer needs to be executed with.
 
 
 Build Log
