@@ -754,21 +754,21 @@ class TestSQLFileSet(unittest.TestCase):
                 ])
 
                 # Create database tables
-                self.assertListEqual(fileset.init_table_query(0), case.init_tables_sql)
+                self.assertListEqual(fileset._init_fileset_database_sql(0), case.init_tables_sql)
 
                 # TODO: I dont know if this should be allowed, empty group matches? Maybe? but if we have a regex match shouldn't we be matching all groups?
                 # insert_sql, binds = fileset.insert_new_file_querystring(0, "file", "rndm_filename", {})
 
                 # Insert File into Database SQL
-                insert_sql, binds = fileset.insert_new_file_querystring(0, case.test_fieldname, case.insert_file_filename, case.insert_file_groups)
+                insert_sql, binds = fileset._insert_file_into_database_sql(0, case.test_fieldname, case.insert_file_filename, case.insert_file_groups)
                 self.assertListEqual(binds, case.insert_file_sql_binds)
                 self.assertEqual(insert_sql, case.insert_file_sql)
 
                 # Remove File From database SQL
                 self.assertEqual(
-                    fileset.remove_file_from_database_sql(0, case.test_fieldname),
+                    fileset._remove_file_from_database_sql(0, case.test_fieldname),
                     "DELETE FROM producer0_field0_matches WHERE filename = :filename",
                 )
 
                 # Query Fileset from database SQL
-                self.assertEqual(fileset._query_filesets_sql(0), case.query_filesets_sql)
+                self.assertEqual(fileset._query_filesets_from_database_sql(0), case.query_filesets_sql)

@@ -43,7 +43,7 @@ class SqlFileSet(FileSet):
 
     def __init__(self, producer_list: List[GenericProducer]):
         self.producer_list = producer_list
-        self.db = self.init_producer_cache(producer_list)
+        self.db = self._init_fileset_database(producer_list)
 
     def add_file(
         self,
@@ -52,7 +52,7 @@ class SqlFileSet(FileSet):
         filename: str,
         groups: Dict[str, str],
     ) -> None:
-        return self.insert_new_file(self.db, producer_index, field_name, filename, groups)
+        return self._insert_file_into_database(self.db, producer_index, field_name, filename, groups)
 
     def remove_file(
         self,
@@ -60,35 +60,35 @@ class SqlFileSet(FileSet):
         field_name: str,
         filename: str,
     ) -> None:
-        return self.remove_file_from_database(self.db, producer_index, field_name, filename)
+        return self._remove_file_from_database(self.db, producer_index, field_name, filename)
 
     def query_filesets(self, producer_index: int) -> List[Tuple[InputArguments, MatchGroups]]:
-        return self._query_filesets(self.db, producer_index)
+        return self._query_filesets_from_database(self.db, producer_index)
 
     ############################################################################
-    # init_producer_cache
+    # _init_fileset_database
     #
     # Create the cache database for storing all the files that match a producer
     # field, and then initialize all of the tables in the database.
     # file instead.
     ############################################################################
-    def init_producer_cache(self, producer_list: List[GenericProducer]) -> sqlite3.Connection:
+    def _init_fileset_database(self, producer_list: List[GenericProducer]) -> sqlite3.Connection:
         db = sqlite3.connect(':memory:')
 
         for producer_index, producer in enumerate(producer_list):
-            for init_query in self.init_table_query(producer_index):
+            for init_query in self._init_fileset_database_sql(producer_index):
                 with db:
                     db.execute(init_query)
 
         return db
 
     ############################################################################
-    # init_table_query
+    # _init_fileset_database_sql
     #
     # Create a series of sql query strings that are used to create all of the
     # tables for each field in this producer.
     ############################################################################
-    def init_table_query(self, producer_index: int) -> List[str]:
+    def _init_fileset_database_sql(self, producer_index: int) -> List[str]:
         producer: GenericProducer = self.producer_list[producer_index]
 
         query_strings: List[str] = []
@@ -123,12 +123,12 @@ class SqlFileSet(FileSet):
         return query_strings
 
     ############################################################################
-    # insert
+    # _insert_file_into_database
     #
     # Insert a file that has matched a field for this producer into the
     # database table for that field.
     ############################################################################
-    def insert_new_file(
+    def _insert_file_into_database(
         self,
         db: sqlite3.Connection,
         producer_index: int,
@@ -136,7 +136,7 @@ class SqlFileSet(FileSet):
         filename: str,
         groups: Dict[str, str]
     ) -> None:
-        query_string, binds = self.insert_new_file_querystring(
+        query_string, binds = self._insert_file_into_database_sql(
             producer_index=producer_index,
             field_name=field_name,
             filename=filename,
@@ -149,7 +149,7 @@ class SqlFileSet(FileSet):
                 binds,
             )
 
-    def insert_new_file_querystring(
+    def _insert_file_into_database_sql(
         self,
         producer_index: int,
         field_name: str,
@@ -173,7 +173,7 @@ class SqlFileSet(FileSet):
 
         return query_string, binds
 
-    def remove_file_from_database(
+    def _remove_file_from_database(
         self,
         db: sqlite3.Connection,
         producer_index: int,
@@ -181,7 +181,7 @@ class SqlFileSet(FileSet):
         filename: str,
     ) -> None:
 
-        query_string = self.remove_file_from_database_sql(producer_index, field_name)
+        query_string = self._remove_file_from_database_sql(producer_index, field_name)
         with db:
             db.execute(
                 query_string,
@@ -190,7 +190,7 @@ class SqlFileSet(FileSet):
                 },
             )
 
-    def remove_file_from_database_sql(
+    def _remove_file_from_database_sql(
         self,
         producer_index: int,
         field_name: str,
@@ -213,7 +213,7 @@ class SqlFileSet(FileSet):
     # Query all of the valid combinations of files that can be used for this
     # producer using the field matches that have been stored in the database.
     ############################################################################
-    def _query_filesets(
+    def _query_filesets_from_database(
         self,
         db: sqlite3.Connection,
         producer_index: int
@@ -222,7 +222,7 @@ class SqlFileSet(FileSet):
         #   real type.
         # List[Tuple[InputFileDatatype, Dict[str, str]]]:
     ) -> List[Tuple[Any, Dict[str, str]]]:
-        query_string = self._query_filesets_sql(producer_index)
+        query_string = self._query_filesets_from_database_sql(producer_index)
 
         producer = self.producer_list[producer_index]
 
@@ -266,7 +266,7 @@ class SqlFileSet(FileSet):
 
         return output_data
 
-    def _query_filesets_sql(self, producer_index: int) -> str:
+    def _query_filesets_from_database_sql(self, producer_index: int) -> str:
         producer = self.producer_list[producer_index]
 
         # A list of columns to select. Should end up as the union between
@@ -426,6 +426,7 @@ def _get_field_table_name(producer_index: int, field_id: str) -> str:
         producer_index=producer_index,
         field_id=field_id
     )
+
 
 ################################################################################
 # get_match_group_column_name
